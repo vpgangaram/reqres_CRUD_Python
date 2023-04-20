@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>REQRES CRUD</title>
+    <body>
+        <div class="container">
+            <h1></h1>
+            <form class="form-horizontal" action="{{ url_for('create_user') }}" method="POST" role="dialog">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="job" class="col-sm-2 control-label">Job:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="job" name="job" class="form-control" placeholder="Job">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div class="container">
+            <h1>List of users</h1>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Avatar</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in all_users %}
+                        {% if res.id not in array_of_delete_users %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><img src="{{ res.avatar }}" alt="Avatar"></td>
+                                <td>{{ res.first_name }}</td>
+                                <td>{{ res.last_name }}</td>
+                                <td>{{ res.email }}</td>
+                                <td>
+                                    <form method="get" action="{{ url_for('delete_user', userId=res.id) }}">
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure')">Delete</button>
+                                    </form>                      
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+        </div>
+    
+        <!-- Add Bootstrap and jQuery JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>
